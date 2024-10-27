@@ -122,6 +122,7 @@ endif
 libappcui = library('appcui', src,
     cpp_args : cpp_args,
     include_directories : [ inc, 'src' ],
+    override_options : [ 'unity=off' ],
 )
 
 appcui = declare_dependency(
