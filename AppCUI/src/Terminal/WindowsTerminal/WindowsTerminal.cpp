@@ -6,13 +6,11 @@ using namespace Application;
 using namespace Graphics;
 
 WindowsTerminal::WindowsTerminal()
-    : consoleBufferCount(0), fpsMode(false), lastMousePosition({ 0xFFFFFFFFu, 0xFFFFFFFFu })
 {
 }
 
 WindowsTerminal::~WindowsTerminal()
 {
-    consoleBufferCount = 0;
 }
 
 bool WindowsTerminal::ResizeConsoleBuffer(uint32 width, uint32 height)

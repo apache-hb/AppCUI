@@ -1,10 +1,15 @@
 #include "ImageLoader.hpp"
+
+#define HAS_JPEG __has_include("turbojpeg.h")
+#if HAS_JPEG
 #include <turbojpeg.h>
+#endif
 
 namespace AppCUI::Graphics
 {
 bool LoadJPGToImage(Image& img, const uint8* imageBuffer, uint32 size)
 {
+#if HAS_JPEG
     std::unique_ptr<void, void (*)(void*)> handle(
           reinterpret_cast<void*>(tjInitDecompress()), [](void* p) { tjDestroy(reinterpret_cast<tjhandle>(p)); });
     CHECK(handle != nullptr, false, "Failed to initialize TurboJPEG decompressor!");
@@ -54,5 +59,8 @@ bool LoadJPGToImage(Image& img, const uint8* imageBuffer, uint32 size)
           tjGetErrorStr());
 
     return true;
+#else
+    return false;
+#endif
 }
 } // namespace AppCUI::Graphics

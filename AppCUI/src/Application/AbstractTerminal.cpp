@@ -5,9 +5,9 @@ namespace AppCUI::Internal
 using namespace Graphics;
 
 AbstractTerminal::AbstractTerminal()
-    : lastCursorVisibility(false), lastCursorX(0xFFFFFFFF), lastCursorY(0xFFFFFFFF), inited(false)
 {
 }
+
 AbstractTerminal::~AbstractTerminal()
 {
 }

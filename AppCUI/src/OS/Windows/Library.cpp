@@ -23,7 +23,7 @@ void* Library::GetFunction(const char* functionName) const
     CHECK(functionName, nullptr, "Expecting a valid (non-null) function name !");
     CHECK(*functionName, nullptr, "Expecting a valid (non-empty) function name !");
     // all good
-    void* fnPtr = GetProcAddress((HMODULE) this->libraryHandle, functionName);
+    void* fnPtr = (void*)GetProcAddress((HMODULE) this->libraryHandle, functionName);
     CHECK(fnPtr, nullptr, "Unable to find address of function: %s", functionName);
     return fnPtr;
 }

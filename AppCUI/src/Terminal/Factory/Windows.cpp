@@ -1,7 +1,10 @@
 #include "../TerminalFactory.hpp"
 #include "../WindowsTerminal/WindowsTerminal.hpp"
 #include "../TestTerminal/TestTerminal.hpp"
-#include "../SDLTerminal/SDLTerminal.hpp"
+
+#if HAS_SDL
+#   include "../SDLTerminal/SDLTerminal.hpp"
+#endif
 
 namespace AppCUI::Internal
 {
@@ -16,9 +19,11 @@ unique_ptr<AbstractTerminal> GetTerminal(const InitializationData& initData)
     case FrontendType::WindowsConsole:
         term = std::make_unique<WindowsTerminal>();
         break;
+#if HAS_SDL
     case FrontendType::SDL:
         term = std::make_unique<SDLTerminal>();
         break;
+#endif
     case FrontendType::Tests:
         term = std::make_unique<TestTerminal>();
         break;

@@ -12,18 +12,17 @@ namespace Internal
         HANDLE hstdOut;
         HANDLE hstdIn;
         DWORD originalStdMode;
-        DWORD stdMode;
         DWORD64 startTime;
         unique_ptr<CHAR_INFO> consoleBuffer;
-        uint32 consoleBufferCount;
+        uint32 consoleBufferCount = 0;
         uint32 lastWidth, lastHeight;
         struct
         {
             uint32 x, y;
-        } lastMousePosition;
+        } lastMousePosition = { 0xFFFFFFFFu, 0xFFFFFFFFu };
         Input::Key KeyTranslationMatrix[KEYTRANSLATION_MATRIX_SIZE];
         Input::Key shiftState;
-        bool fpsMode;
+        bool fpsMode = false;
 
         bool ResizeConsoleBuffer(uint32 width, uint32 height);
         bool CopyOriginalScreenBuffer(
@@ -51,7 +50,7 @@ namespace Internal
         virtual void Update() override;
         virtual bool IsEventAvailable() override;
         virtual bool HasSupportFor(Application::SpecialCharacterSetType type) override;
-        virtual ~WindowsTerminal();
+        virtual ~WindowsTerminal() override;
     };
 } // namespace Internal
 } // namespace AppCUI

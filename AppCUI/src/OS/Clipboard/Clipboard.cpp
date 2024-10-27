@@ -1,5 +1,8 @@
 #include "Internal.hpp"
+
+#if HAS_SDL
 #include "SDL.h"
+#endif
 
 namespace AppCUI::OS
 {
@@ -58,10 +61,12 @@ bool Clipboard::Clear()
         EmptyClipboard();
         CloseClipboard();
     }
+#if HAS_SDL
     else if (frontend == AppCUI::Application::FrontendType::SDL)
     {
         CHECK(SDL_SetClipboardText("") > 0, false, "Failed to clear clipboard: %s", SDL_GetError());
     }
+#endif
 #else
 
 #endif
@@ -80,12 +85,13 @@ bool Clipboard::HasText()
     {
         return ((IsClipboardFormatAvailable(CF_TEXT)) || (IsClipboardFormatAvailable(CF_UNICODETEXT)));
     }
-    else if (frontend == AppCUI::Application::FrontendType::SDL)
+#endif
+
+#if HAS_SDL
+    if (frontend == AppCUI::Application::FrontendType::SDL)
     {
         return SDL_HasClipboardText();
     }
-#else
-    return false;
 #endif
 
     return false;
@@ -108,7 +114,10 @@ bool Clipboard::SetText(const ConstString& text)
         CHECK(unicode.Set(text), false, "Fail to convert ConstString into unicode buffer !");
         return CopyTextBufferToClipboard(unicode.GetString(), sizeof(char16), unicode.Len());
     }
-    else if (frontend == AppCUI::Application::FrontendType::SDL)
+#endif
+
+#if HAS_SDL
+    if (frontend == AppCUI::Application::FrontendType::SDL)
     {
         if (textObj.Encoding == StringEncoding::Ascii)
         {
@@ -121,8 +130,6 @@ bool Clipboard::SetText(const ConstString& text)
         }
         NOT_IMPLEMENTED(false, "Support for UNICODE/UTF-8/Character is not implemented yet");
     }
-#else
-    return false;
 #endif
 
     return false;
@@ -148,7 +155,10 @@ bool Clipboard::GetText(Utils::UnicodeStringBuilder& text)
         CloseClipboard();
         return false;
     }
-    else if (frontend == AppCUI::Application::FrontendType::SDL)
+#endif
+
+#if HAS_SDL
+    if (frontend == AppCUI::Application::FrontendType::SDL)
     {
         if (SDL_HasClipboardText())
         {
@@ -159,8 +169,6 @@ bool Clipboard::GetText(Utils::UnicodeStringBuilder& text)
         }
         return true;
     }
-#else
-    return false;
 #endif
 
     return false;

@@ -1,10 +1,15 @@
 #include "ImageLoader.hpp"
-#include <libpng16/png.h>
 
+#define HAS_PNG __has_include("libpng16/png.h")
+
+#if HAS_PNG
+#include <libpng16/png.h>
+#endif
 namespace AppCUI::Graphics
 {
 bool LoadPNGToImage(Image& img, const uint8* imageBuffer, uint32 size)
 {
+#if HAS_PNG
     /* Initialize the 'png_image' structure. */
     png_image image{ .version = PNG_IMAGE_VERSION }; /* The control structure used by libpng */
 
@@ -18,5 +23,8 @@ bool LoadPNGToImage(Image& img, const uint8* imageBuffer, uint32 size)
     memcpy(img.GetPixelsBuffer(), buffer.get(), ((size_t) image.width * (size_t) image.height) * sizeof(Pixel));
 
     return true;
+#else
+    return false;
+#endif
 }
 } // namespace AppCUI::Graphics

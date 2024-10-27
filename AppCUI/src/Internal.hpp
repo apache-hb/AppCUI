@@ -18,6 +18,8 @@
 #include <stdio.h>
 #include <iostream>
 
+#define HAS_SDL __has_include("SDL.h")
+
 namespace AppCUI
 {
 constexpr uint32 REPAINT_STATUS_COMPUTE_POSITION = 1;
@@ -211,9 +213,9 @@ namespace Internal
         AbstractTerminal();
 
       public:
-        uint32 lastCursorX, lastCursorY;
+        uint32 lastCursorX = 0xFFFFFFFF, lastCursorY = 0xFFFFFFFF;
         Graphics::Canvas originalScreenCanvas, screenCanvas;
-        bool inited, lastCursorVisibility;
+        bool inited = false, lastCursorVisibility = false;
 
         virtual bool OnInit(const Application::InitializationData& initData)  = 0;
         virtual void RestoreOriginalConsoleSettings()                         = 0;
@@ -272,7 +274,7 @@ namespace Internal
         ApplicationImpl();
         ~ApplicationImpl();
 
-        
+
         Application::FrontendType GetFrontendType() const;
 
         void Destroy();
