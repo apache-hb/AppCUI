@@ -47,10 +47,10 @@
 #endif
 
 #ifndef NDEBUG
-#    define ENABLE_LOGGING
+#    define APPCUI_ENABLE_LOGGING
 #endif
 
-#ifdef ENABLE_LOGGING
+#if defined(APPCUI_ENABLE_LOGGING) && !defined(APPCUI_DISABLE_LOGGING)
 #    define ASSERT(c, error)                                                                                           \
         {                                                                                                              \
             if (!(c))                                                                                                  \
