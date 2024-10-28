@@ -50,7 +50,9 @@
 #    define APPCUI_ENABLE_LOGGING
 #endif
 
-#if defined(APPCUI_ENABLE_LOGGING) && !defined(APPCUI_DISABLE_LOGGING)
+#if defined(APPCUI_DISABLE_LOGGING)
+// do nothing
+#elif defined(APPCUI_ENABLE_LOGGING)
 #    define ASSERT(c, error)                                                                                           \
         {                                                                                                              \
             if (!(c))                                                                                                  \
